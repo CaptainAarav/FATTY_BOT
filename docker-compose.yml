@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  discord_bot:
+    build: .
+    container_name: discord_bot
+    restart: always
+    env_file: .env
+
+    # Optional but very useful for testing without rebuilding:
+    volumes:
+      - .:/app
