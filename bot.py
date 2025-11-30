@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord import app_commands
 import logging
 from dotenv import load_dotenv
 import os
@@ -17,6 +18,16 @@ bot = commands.Bot(command_prefix=".", intents=intents)
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user.name} (ID: {bot.user.id})")
+
+    try:
+        synced = await bot.tree.sync()
+        print(f"Synced {len(synced)} slash commands.")
+    except Exception as e:
+        print(f"Error syncing commands: {e}")
+
+@bot.tree.command(name="ping", description="Pings the bot.")
+async def ping(interaction: discord.Interaction):
+    await interaction.response.send_message("Pong! 🏓")
 
 @bot.event
 async def on_member_join(member):
